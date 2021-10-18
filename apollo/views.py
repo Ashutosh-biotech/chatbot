@@ -29,7 +29,7 @@ def bot_search(request, query):
             headers = {
                 'x-user-agent': "desktop",
                 'x-rapidapi-host': "google-search3.p.rapidapi.com",
-                'x-rapidapi-key': "2dffe21945msha8a2117084420bfp11a3a4jsn4cceff583a34"
+                'x-rapidapi-key': "your-api-key-from-radiapi"
             }
 
             response = requests.request("GET", url, headers=headers)
@@ -37,7 +37,7 @@ def bot_search(request, query):
             return JsonResponse({'output': f"{response['entries'][0]['title']}<br><br>{response['entries'][0]['summary']}"})
         except:
             query = query.replace('news', '')
-            reqUrl = f"https://newsapi.org/v2/everything?q={query}&apiKey=1bd83a629d72475181de0e3f261bb2e7"
+            reqUrl = f"https://newsapi.org/v2/everything?q={query}&apiKey=your-api-key-from-news-api"
             headersList = {}
             payload = ""
             response = requests.request(
@@ -48,7 +48,7 @@ def bot_search(request, query):
 
     if ('photo' in query.lower()) or ('pic' in query.lower()) or ('pics' in query.lower()) or ('picture' in query.lower()) or ('pictures' in query.lower()) or ('image' in query.lower()) or ('images' in query.lower()) or ('photos' in query.lower()):
         params = {
-            "api_key": "b417d5ef0b2d54be1658a91026d62d1d2785b380685520a87f9b4cbc38fcd980",
+            "api_key": "your-api-key-from-serpapi",
             "engine": "google",
             "ijn": "0",
             "q": f"{query}",
@@ -92,7 +92,7 @@ def bot_search(request, query):
                     headers = {
                         'x-user-agent': "desktop",
                         'x-rapidapi-host': "google-search3.p.rapidapi.com",
-                        'x-rapidapi-key': "2dffe21945msha8a2117084420bfp11a3a4jsn4cceff583a34"
+                        'x-rapidapi-key': "your-api-key-from-radiapi"
                     }
 
                     response = requests.request("GET", url, headers=headers)
