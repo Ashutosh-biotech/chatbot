@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/assets/css/styles.min.css">
+    <link rel="shortcut icon" href="/assets/chatbot.png" type="image/x-icon">
+    <style>
+        .alert{
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+
+<body class="bg-dark">
+    <div class="border rounded border-dark position-relative"
+        style="height: 85vh;width: 90vw;margin: 5vh 5vw 5vh 5vw;box-shadow: 0 .5rem 1rem rgb(0, 255, 207) !important;">
+        <div class="container border rounded border-dark position-absolute pt-3"
+            style="margin-top: 10px;margin-bottom: 10px;height: 90%;left: 50%;transform: translateX(-50%);overflow: auto;filter: brightness(100%) contrast(100%);">
+            <div class="row">
+                <div class="col-md-6 slideInDown">
+                    <div class="alert alert-info" role="alert">
+                        <h5 class="alert-heading">👦🏽 My self Christopher.</h5>
+                    </div>
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+            <div id="chatbot2"></div><br><br>
+            <div id="chatbot"></div>
+        </div>
+        <div class="container border-primary position-absolute toggle-div"
+            style="bottom: -25px;left: 50%;transform: translateX(-50%);">
+            <div class="input-group input-group-lg">
+                <input class="bg-dark border-dark shadow-lg form-control form-text rounded-pill" type="text"
+                    autocomplete="on" id="text" name="query"
+                    style="margin-right: 15px;box-shadow: 0 .5rem 1rem rgb(0, 255, 207) !important;color: var(--bs-white);">
+                <button class="btn btn-primary rounded-pill" type="button" id="post">
+                    <i class="far fa-paper-plane"></i>&nbsp;</button>
+            </div>
+        </div>
+    </div>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/assets/js/script.min.js"></script>
+    <script src="/assets/js/w3.js"></script>
+    <script>
+        'use strict'
+
+        let post = true;
+        const text = document.querySelector('#text');
+        const div = document.querySelector('.row');
+        const btn = document.querySelector('#post').addEventListener('click', () => {
+            if (post === true) {
+                let value = text.value;
+                if (value === '') {
+                    console.error('Christopher did get your data');
+                } else {
+                    let upval = value.replaceAll(' ', '');
+                    if (upval === '') {
+                        console.error('Christopher did get your data');
+                    } else {
+                        adduser(div, value)
+                    }
+                }
+            } else {
+                window.alert('Let me solve your previous question first')
+            }
+        });
+
+        text.addEventListener('keypress', (e) => {
+            if (post === true) {
+                if (e.key == 'Enter') {
+                    let value = text.value;
+                    if (value === '') {
+                        console.error('Christopher did get your data');
+                    } else {
+                        let upval = value.replaceAll(' ', '');
+                        if (upval === '') {
+                            console.error('Christopher did get your data');
+                        } else {
+                            adduser(div, value)
+                        }
+                    }
+                }
+            } else {
+                window.alert('Let me solve your previous question first')
+            }
+        });
+
+        const adduser = (div, message) => {
+            text.innerHTML = ""
+            keepblank(div);
+            div.innerHTML += `<div class="col-md-6 slideInUp">
+                    <div class="alert alert-success text-end" role="alert">
+                        <h5 class="alert-heading">${message}</h5>
+                    </div>
+                </div>`;
+            window.location.assign('#chatbot')
+
+            post = false
+            ToggleLoading()
+            w3.getHttpObject(`/api/reply/${message}/`, (data) => {
+                addbot(div, data.output);
+                post = true
+                ToggleLoading()
+            });
+        };
+
+        const username = (div) => {
+                addbot(div, "Keywords as follows (help me as well as you)")
+                addbot(div, 'news: for news<br>')
+                addbot(div, `Hello my dear friend, ask your doubt ...`);
+        };
+
+        const addbot = (div, message) => {
+            div.innerHTML += `<div class="col-md-6 slideInDown">
+                    <div class="alert alert-info" role="alert">
+                        <h5 class="alert-heading">${message}</h5>
+                    </div>
+                </div>`;
+            keepblank(div);
+            window.location.assign('#chatbot')
+        };
+
+        const keepblank = (div) => {
+            div.innerHTML += '<div class="col-md-6"></div>';
+        };
+
+        const ToggleLoading = () => {
+            let div = document.querySelector('#chatbot2');
+            if (post === true) {
+                div.innerHTML = ``;
+            } else {
+                div.innerHTML = `<div class="social-icons"><span class="thinking"
+                        style="color: var(--bs-orange);padding: 12px;border-bottom-style: solid;">🤔
+                        <sub>thinking...</sub><br /></span></div>`;
+            }
+        };
+
+        username(div)
+    </script>
+    <img src="" alt="" draggable="false">
+</body>
+
+</html>
