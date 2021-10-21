@@ -77,7 +77,7 @@ def bot_search(request, query):
             return JsonResponse({'output': result})
         except:
             try:
-                client = wolframalpha.Client("K58A97-HRTPERX3AR")
+                client = wolframalpha.Client("your client key")
                 res = client.query(query)
                 ans = next(res.results).text
                 if (ans == "(no data available)") or (ans == "(data not available)"):
